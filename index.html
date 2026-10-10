@@ -1,0 +1,458 @@
+html
+<!DOCTYPE html>
+<html lang="tr" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixing Search Beta — Yerli Mobil Arama Motoru (.APK) | fixing.tr</title>
+    
+    <!-- SVG Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1081 1920'><path fill='%238FA9E2' d='M756.337 1009.76C768.7 960.853 759.702 907.754 738.292 862.697C735.031 865.391 731.669 868.493 728.484 871.318C702.5 892.103 675.579 916.436 649.869 938.003C637.987 947.97 611.385 969.624 601.874 979.351C583.194 993.208 554.207 1019.58 535.877 1035.24L412.164 1140.68C421.882 1147.52 430.684 1153.26 441.42 1158.48C477.073 1175.61 506.01 1182.03 545.489 1182.22C566.848 1164.94 588.116 1147.54 609.291 1130.04C644.226 1103.62 677.827 1073 712.49 1045.94C726.749 1034.8 742.989 1021.76 756.337 1009.76Z'/><path fill='%23C4D6FE' d='M572.899 1133.4C536.943 1137.32 472.712 1142.31 441.42 1158.48C477.073 1175.61 506.01 1182.03 545.489 1182.22C566.848 1164.94 588.116 1147.54 609.291 1130.04C605.125 1129.36 589.579 1131.32 579.604 1132.58C576.806 1132.93 574.447 1133.23 572.899 1133.4Z'/><path fill='%236C7FA8' d='M711.154 895.352C716.1 889.009 725.046 878.177 728.484 871.318C702.5 892.103 675.579 916.436 649.869 938.003C637.987 947.97 611.385 969.624 601.874 979.351C641.463 968.9 686.46 927.02 711.154 895.352Z'/><path fill='%236C7FA8' d='M429.554 771.125C401.437 787.642 363.354 821.874 349.921 851.988C347.855 854.822 343.126 863.643 341.598 866.928C315.233 923.627 313.936 979.385 333.799 1037.64L648.969 768.974C635.431 761.775 625.449 757.502 611.054 752.183C595.537 748.122 581.454 744.395 565.463 742.491C518.267 737.334 470.657 747.365 429.554 771.125Z'/><path fill='%23495D84' d='M429.554 771.125C401.437 787.642 363.354 821.874 349.921 851.988C352.011 850.367 356.075 845.263 358.334 842.83C365.496 835.119 374.178 826.718 383.304 821.346C421.535 798.842 470.555 796.831 513.371 787.775C551.903 779.625 577.361 771.403 611.054 752.183C595.537 748.122 581.454 744.395 565.463 742.491C518.267 737.334 470.657 747.365 429.554 771.125Z'/><path fill='%238FA9E2' d='M772.74 1111.43C731.416 1145.1 689.526 1180.07 647.929 1213.23C668.979 1221.64 694.806 1231.15 715.216 1240.13C749.985 1253.73 784.626 1268.06 819.409 1281.45L856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6C819.266 1212.51 808.021 1188.95 798.858 1169.11C792.423 1154.3 780.115 1125.12 772.74 1111.43Z'/><path fill='%236C7FA8' d='M827.564 1232.6C819.266 1212.51 808.021 1188.95 798.858 1169.11C787.144 1198.11 763.448 1211.78 737.71 1227.25C732.627 1230.3 720.203 1238.63 715.216 1240.13C749.985 1253.73 784.626 1268.06 819.409 1281.45L856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6Z'/><path fill='%23495D84' d='M856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6C827.867 1243.44 828.694 1274.99 819.409 1281.45L856.433 1296.44Z'/></svg>">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#090b0e',
+                        darkcard: '#0f1218',
+                        darkhover: '#161b24',
+                        darkborder: '#1f2735',
+                        brandBlue: '#8FA9E2',
+                        brandLight: '#C4D6FE',
+                        brandMuted: '#6C7FA8',
+                        brandDark: '#495D84',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #090b0e;
+            color: #cbd5e1;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Download Primary Button Styling using Logo Palette */
+        .btn-download {
+            background: linear-gradient(135deg, #8FA9E2 0%, #495D84 100%);
+            box-shadow: 0 4px 20px rgba(143, 169, 226, 0.25);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-download:hover {
+            box-shadow: 0 6px 26px rgba(143, 169, 226, 0.4);
+            transform: translateY(-1.5px);
+        }
+
+        .btn-download:active {
+            transform: translateY(0);
+        }
+
+        /* Active Tab Underline Styling */
+        .tab-btn {
+            position: relative;
+            transition: color 0.2s ease;
+        }
+        
+        .tab-active {
+            color: #8FA9E2 !important;
+            font-weight: 700;
+        }
+
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #8FA9E2;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-[#090b0e]/95 backdrop-blur-md border-b border-darkborder">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            
+            <!-- Branding with SVG Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-darkcard border border-darkborder p-1.5 flex items-center justify-center shadow-lg shadow-indigo-900/10">
+                    <!-- Embedded SVG Logo -->
+                    <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1081 1920">
+                        <path fill="#8FA9E2" d="M756.337 1009.76C768.7 960.853 759.702 907.754 738.292 862.697C735.031 865.391 731.669 868.493 728.484 871.318C702.5 892.103 675.579 916.436 649.869 938.003C637.987 947.97 611.385 969.624 601.874 979.351C583.194 993.208 554.207 1019.58 535.877 1035.24L412.164 1140.68C421.882 1147.52 430.684 1153.26 441.42 1158.48C477.073 1175.61 506.01 1182.03 545.489 1182.22C566.848 1164.94 588.116 1147.54 609.291 1130.04C644.226 1103.62 677.827 1073 712.49 1045.94C726.749 1034.8 742.989 1021.76 756.337 1009.76Z"/>
+                        <path fill="#C4D6FE" d="M572.899 1133.4C536.943 1137.32 472.712 1142.31 441.42 1158.48C477.073 1175.61 506.01 1182.03 545.489 1182.22C566.848 1164.94 588.116 1147.54 609.291 1130.04C605.125 1129.36 589.579 1131.32 579.604 1132.58C576.806 1132.93 574.447 1133.23 572.899 1133.4Z"/>
+                        <path fill="#6C7FA8" d="M711.154 895.352C716.1 889.009 725.046 878.177 728.484 871.318C702.5 892.103 675.579 916.436 649.869 938.003C637.987 947.97 611.385 969.624 601.874 979.351C641.463 968.9 686.46 927.02 711.154 895.352Z"/>
+                        <path fill="#6C7FA8" d="M429.554 771.125C401.437 787.642 363.354 821.874 349.921 851.988C347.855 854.822 343.126 863.643 341.598 866.928C315.233 923.627 313.936 979.385 333.799 1037.64L648.969 768.974C635.431 761.775 625.449 757.502 611.054 752.183C595.537 748.122 581.454 744.395 565.463 742.491C518.267 737.334 470.657 747.365 429.554 771.125Z"/>
+                        <path fill="#495D84" d="M429.554 771.125C401.437 787.642 363.354 821.874 349.921 851.988C352.011 850.367 356.075 845.263 358.334 842.83C365.496 835.119 374.178 826.718 383.304 821.346C421.535 798.842 470.555 796.831 513.371 787.775C551.903 779.625 577.361 771.403 611.054 752.183C595.537 748.122 581.454 744.395 565.463 742.491C518.267 737.334 470.657 747.365 429.554 771.125Z"/>
+                        <path fill="#8FA9E2" d="M772.74 1111.43C731.416 1145.1 689.526 1180.07 647.929 1213.23C668.979 1221.64 694.806 1231.15 715.216 1240.13C749.985 1253.73 784.626 1268.06 819.409 1281.45L856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6C819.266 1212.51 808.021 1188.95 798.858 1169.11C792.423 1154.3 780.115 1125.12 772.74 1111.43Z"/>
+                        <path fill="#6C7FA8" d="M827.564 1232.6C819.266 1212.51 808.021 1188.95 798.858 1169.11C787.144 1198.11 763.448 1211.78 737.71 1227.25C732.627 1230.3 720.203 1238.63 715.216 1240.13C749.985 1253.73 784.626 1268.06 819.409 1281.45L856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6Z"/>
+                        <path fill="#495D84" d="M856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6C827.867 1243.44 828.694 1274.99 819.409 1281.45L856.433 1296.44Z"/>
+                    </svg>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-white font-bold text-base tracking-tight">Fixing Search</span>
+                    <span class="text-[10px] bg-brandBlue/15 text-brandBlue font-semibold px-2 py-0.5 rounded-full border border-brandBlue/30">BETA</span>
+                </div>
+            </div>
+
+            <!-- Domain Link & Copy Action -->
+            <button onclick="copyDomainLink()" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-darkcard hover:bg-darkhover text-xs font-medium text-zinc-300 transition-colors border border-darkborder group">
+                <i data-lucide="globe" class="w-3.5 h-3.5 text-brandBlue"></i>
+                <span class="font-mono text-brandBlue group-hover:underline">fixing.tr</span>
+                <i data-lucide="copy" class="w-3 h-3 text-zinc-500 group-hover:text-zinc-300"></i>
+            </button>
+
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-16 flex-grow w-full">
+
+        <!-- App Hero Card -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
+            
+            <div class="flex items-start space-x-5">
+                <!-- Large Custom SVG App Icon -->
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-b from-darkcard to-[#0b0e14] border border-darkborder p-3 shadow-2xl flex-shrink-0 relative overflow-hidden flex items-center justify-center">
+                    <div class="absolute inset-0 bg-brandBlue/5"></div>
+                    <svg class="w-full h-full relative z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1081 1920">
+                        <path fill="#8FA9E2" d="M756.337 1009.76C768.7 960.853 759.702 907.754 738.292 862.697C735.031 865.391 731.669 868.493 728.484 871.318C702.5 892.103 675.579 916.436 649.869 938.003C637.987 947.97 611.385 969.624 601.874 979.351C583.194 993.208 554.207 1019.58 535.877 1035.24L412.164 1140.68C421.882 1147.52 430.684 1153.26 441.42 1158.48C477.073 1175.61 506.01 1182.03 545.489 1182.22C566.848 1164.94 588.116 1147.54 609.291 1130.04C644.226 1103.62 677.827 1073 712.49 1045.94C726.749 1034.8 742.989 1021.76 756.337 1009.76Z"/>
+                        <path fill="#C4D6FE" d="M572.899 1133.4C536.943 1137.32 472.712 1142.31 441.42 1158.48C477.073 1175.61 506.01 1182.03 545.489 1182.22C566.848 1164.94 588.116 1147.54 609.291 1130.04C605.125 1129.36 589.579 1131.32 579.604 1132.58C576.806 1132.93 574.447 1133.23 572.899 1133.4Z"/>
+                        <path fill="#6C7FA8" d="M711.154 895.352C716.1 889.009 725.046 878.177 728.484 871.318C702.5 892.103 675.579 916.436 649.869 938.003C637.987 947.97 611.385 969.624 601.874 979.351C641.463 968.9 686.46 927.02 711.154 895.352Z"/>
+                        <path fill="#6C7FA8" d="M429.554 771.125C401.437 787.642 363.354 821.874 349.921 851.988C347.855 854.822 343.126 863.643 341.598 866.928C315.233 923.627 313.936 979.385 333.799 1037.64L648.969 768.974C635.431 761.775 625.449 757.502 611.054 752.183C595.537 748.122 581.454 744.395 565.463 742.491C518.267 737.334 470.657 747.365 429.554 771.125Z"/>
+                        <path fill="#495D84" d="M429.554 771.125C401.437 787.642 363.354 821.874 349.921 851.988C352.011 850.367 356.075 845.263 358.334 842.83C365.496 835.119 374.178 826.718 383.304 821.346C421.535 798.842 470.555 796.831 513.371 787.775C551.903 779.625 577.361 771.403 611.054 752.183C595.537 748.122 581.454 744.395 565.463 742.491C518.267 737.334 470.657 747.365 429.554 771.125Z"/>
+                        <path fill="#8FA9E2" d="M772.74 1111.43C731.416 1145.1 689.526 1180.07 647.929 1213.23C668.979 1221.64 694.806 1231.15 715.216 1240.13C749.985 1253.73 784.626 1268.06 819.409 1281.45L856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6C819.266 1212.51 808.021 1188.95 798.858 1169.11C792.423 1154.3 780.115 1125.12 772.74 1111.43Z"/>
+                        <path fill="#6C7FA8" d="M827.564 1232.6C819.266 1212.51 808.021 1188.95 798.858 1169.11C787.144 1198.11 763.448 1211.78 737.71 1227.25C732.627 1230.3 720.203 1238.63 715.216 1240.13C749.985 1253.73 784.626 1268.06 819.409 1281.45L856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6Z"/>
+                        <path fill="#495D84" d="M856.433 1296.44C848.099 1276.23 836.772 1252.56 827.564 1232.6C827.867 1243.44 828.694 1274.99 819.409 1281.45L856.433 1296.44Z"/>
+                    </svg>
+                </div>
+
+                <!-- App Info -->
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Fixing Search Beta</h1>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <span class="text-brandBlue font-semibold text-sm">Fixing Studio</span>
+                        <span class="text-zinc-600">•</span>
+                        <span class="text-zinc-400 text-xs font-mono">fixing.tr</span>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 mt-2.5">
+                        <span class="bg-brandBlue/10 text-brandLight border border-brandBlue/20 px-2.5 py-0.5 rounded-md text-xs font-medium flex items-center gap-1">
+                            <i data-lucide="flag" class="w-3 h-3 text-brandBlue"></i> Yerli Yazılım
+                        </span>
+                        <span class="bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-2.5 py-0.5 rounded-md text-xs font-medium flex items-center gap-1">
+                            <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i> Güvenli & Hızlı
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <div class="w-full sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <a href="Https://github.com/FIXING-BY/apk.search/raw/refs/heads/main/Fixing%20Search_1.0.apk" 
+                   id="installBtn"
+                   class="btn-download text-white font-bold px-7 py-3.5 rounded-xl flex items-center justify-center space-x-2.5 text-center cursor-pointer text-sm">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    <span id="installBtnText">Fixing Search Beta APK İndir</span>
+                </a>
+                
+                <button onclick="copyDomainLink()" title="Adresi Kopyala" class="px-4 py-3.5 rounded-xl bg-darkcard hover:bg-darkhover text-zinc-300 border border-darkborder flex items-center justify-center space-x-2 transition-colors">
+                    <i data-lucide="share-2" class="w-4 h-4 text-zinc-400"></i>
+                    <span class="text-sm font-medium sm:hidden">Paylaş</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Real Technical Metadata Bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3.5 border border-darkborder mb-8 text-center bg-darkcard/60 rounded-xl">
+            <div class="flex flex-col items-center justify-center p-2">
+                <div class="flex items-center space-x-1.5 text-white font-mono font-bold text-sm sm:text-base">
+                    <i data-lucide="hard-drive" class="w-4 h-4 text-brandBlue"></i>
+                    <span>11,57 MB</span>
+                </div>
+                <span class="text-[11px] text-zinc-400 mt-1">Dosya Boyutu</span>
+            </div>
+
+            <div class="flex flex-col items-center justify-center p-2 sm:border-l border-darkborder">
+                <div class="flex items-center space-x-1.5 text-white font-mono font-bold text-sm sm:text-base">
+                    <i data-lucide="zap" class="w-4 h-4 text-brandBlue"></i>
+                    <span>v1.0 (Beta)</span>
+                </div>
+                <span class="text-[11px] text-zinc-400 mt-1">Sürüm Bilgisi</span>
+            </div>
+
+            <div class="flex flex-col items-center justify-center p-2 border-t sm:border-t-0 sm:border-l border-darkborder">
+                <div class="flex items-center space-x-1.5 text-white font-mono font-bold text-sm sm:text-base">
+                    <i data-lucide="globe" class="w-4 h-4 text-brandBlue"></i>
+                    <span>fixing.tr</span>
+                </div>
+                <span class="text-[11px] text-zinc-400 mt-1">Resmi Alan Adı</span>
+            </div>
+
+            <div class="flex flex-col items-center justify-center p-2 border-t sm:border-t-0 sm:border-l border-darkborder">
+                <div class="flex items-center space-x-1.5 text-emerald-400 font-bold text-sm sm:text-base">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    <span>Ücretsiz</span>
+                </div>
+                <span class="text-[11px] text-zinc-400 mt-1">Açık Demo</span>
+            </div>
+        </div>
+
+        <!-- DIPNOT / UYARI KUTUSU (Exact Required Text) -->
+        <div class="w-full bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 sm:p-5 mb-8 flex items-start space-x-3.5">
+            <div class="p-2 rounded-lg bg-amber-500/20 text-amber-400 flex-shrink-0 mt-0.5">
+                <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">DİKKAT — ÖNEMLİ BİLGİLENDİRME</h3>
+                <p class="text-xs sm:text-sm text-zinc-200 leading-relaxed font-medium">
+                    <strong class="text-amber-300 font-bold">Dikkat:</strong> Bu uygulama demo'dur. Giriş yaparken vb. özel mail ve şifrelerinizi vermemenizi şiddetle öneririz.
+                </p>
+            </div>
+        </div>
+
+        <!-- Key Highlights Grid -->
+        <div class="mb-10 space-y-3">
+            <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-brandBlue"></i>
+                Öne Çıkan Avantajlar
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 rounded-xl bg-darkcard border border-darkborder hover:border-brandBlue/40 transition-colors">
+                    <div class="w-9 h-9 rounded-lg bg-brandBlue/10 text-brandBlue flex items-center justify-center mb-3">
+                        <i data-lucide="flag" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Yerli Yazılım</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">
+                        Bağımsız ve yerli yazılım mimarisiyle geliştirilen özgün arama motoru tecrübesi.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-darkcard border border-darkborder hover:border-brandBlue/40 transition-colors">
+                    <div class="w-9 h-9 rounded-lg bg-brandBlue/10 text-brandBlue flex items-center justify-center mb-3">
+                        <i data-lucide="gauge" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Işık Hızında & Ultra Hafif</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">
+                        Sadece 11,57 MB boyutuyla saniyeler içinde açılır ve sistem kaynaklarını yormaz.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-darkcard border border-darkborder hover:border-brandBlue/40 transition-colors">
+                    <div class="w-9 h-9 rounded-lg bg-brandBlue/10 text-brandBlue flex items-center justify-center mb-3">
+                        <i data-lucide="shield" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white mb-1">Tam Gizlilik Odaklı</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">
+                        Arka plan izinleri ve veri takibi talep etmeyen temiz ve güvenilir çalışma mantığı.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Navigation Tabs -->
+        <div class="border-b border-darkborder mb-6 flex space-x-8 text-sm font-medium">
+            <button onclick="switchTab('about')" id="tab-about" class="tab-btn pb-3 text-brandBlue tab-active flex items-center space-x-2">
+                <span>Hakkında</span>
+            </button>
+            <button onclick="switchTab('features')" id="tab-features" class="tab-btn pb-3 text-zinc-400 hover:text-zinc-200 flex items-center space-x-2">
+                <span>Tüm Özellikler</span>
+            </button>
+            <button onclick="switchTab('specs')" id="tab-specs" class="tab-btn pb-3 text-zinc-400 hover:text-zinc-200 flex items-center space-x-2">
+                <span>Sistem Gereksinimleri</span>
+            </button>
+        </div>
+
+        <!-- Tab Content 1: About -->
+        <div id="content-about" class="space-y-4">
+            <div class="p-5 rounded-xl bg-darkcard border border-darkborder leading-relaxed text-xs sm:text-sm text-zinc-300 space-y-3">
+                <p>
+                    <strong class="text-white">Fixing Search Beta</strong>, minimalist ve hafif bir arama tecrübesi sunmak üzere tasarlanmış yerli bir mobil arama motoru projesidir.
+                </p>
+                <p class="text-zinc-400">
+                    Sistem doğrudan ihtiyacınız olan bilgiye en hızlı yoldan erişmenizi sağlar. Sadece 11,57 MB olan boyut optimizasyonu sayesinde en düşük donanımlı cihazlarda bile akıcı şekilde çalışır.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tab Content 2: Features -->
+        <div id="content-features" class="hidden space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-4 rounded-xl bg-darkcard border border-darkborder space-y-1.5">
+                    <div class="flex items-center space-x-2 text-brandBlue">
+                        <i data-lucide="code" class="w-4 h-4"></i>
+                        <h3 class="text-xs font-bold text-white">Yerli Yazılım Mimarisi</h3>
+                    </div>
+                    <p class="text-xs text-zinc-400">
+                        Tamamen özgün arayüz yapısı ve bağımsız geliştirme süreçleri.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-darkcard border border-darkborder space-y-1.5">
+                    <div class="flex items-center space-x-2 text-brandBlue">
+                        <i data-lucide="feather" class="w-4 h-4"></i>
+                        <h3 class="text-xs font-bold text-white">Ultra Hafif (11,57 MB)</h3>
+                    </div>
+                    <p class="text-xs text-zinc-400">
+                        Cihaz depolamasını doldurmayan compact APK yapısı.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-darkcard border border-darkborder space-y-1.5">
+                    <div class="flex items-center space-x-2 text-brandBlue">
+                        <i data-lucide="eye-off" class="w-4 h-4"></i>
+                        <h3 class="text-xs font-bold text-white">Gelişmiş Gizlilik</h3>
+                    </div>
+                    <p class="text-xs text-zinc-400">
+                        Gereksiz erişim izinleri gerektirmeyen şeffaf yapı.
+                    </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-darkcard border border-darkborder space-y-1.5">
+                    <div class="flex items-center space-x-2 text-brandBlue">
+                        <i data-lucide="layout" class="w-4 h-4"></i>
+                        <h3 class="text-xs font-bold text-white">Modern Arayüz</h3>
+                    </div>
+                    <p class="text-xs text-zinc-400">
+                        Göz yormayan soft siyah ve mavi renk paleti.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content 3: Specs -->
+        <div id="content-specs" class="hidden space-y-3">
+            <div class="p-4 rounded-xl bg-darkcard border border-darkborder space-y-3 text-xs">
+                <div class="flex justify-between py-2 border-b border-darkborder">
+                    <span class="text-zinc-400">Uygulama Adı</span>
+                    <span class="font-semibold text-zinc-200">Fixing Search Beta</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-darkborder">
+                    <span class="text-zinc-400">Dosya Boyutu</span>
+                    <span class="font-mono text-zinc-200">11,57 MB</span>
+                </div>
+                <div class="flex justify-between py-2 border-b border-darkborder">
+                    <span class="text-zinc-400">İşletim Sistemi</span>
+                    <span class="text-zinc-200">Android 6.0 ve üzeri</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-zinc-400">Resmi Web Alan Adı</span>
+                    <a href="https://fixing.tr" target="_blank" class="font-mono text-brandBlue hover:underline">fixing.tr</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-darkborder bg-[#06080b] py-6">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-3">
+            <div class="flex items-center space-x-3">
+                <a href="https://fixing.tr" target="_blank" class="text-zinc-400 hover:text-brandBlue font-mono transition-colors">fixing.tr</a>
+                <span>•</span>
+                <span class="text-zinc-500">Fixing Search Beta v1.0</span>
+            </div>
+            <p>&copy; Fixing Studio • Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-10 opacity-0 pointer-events-none bg-darkcard border border-brandBlue/40 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 transition-all duration-300">
+        <i data-lucide="check-circle" class="w-4 h-4 text-brandBlue"></i>
+        <span id="toastMsg">İşlem Başarılı</span>
+    </div>
+
+    <!-- JavaScript Handlers -->
+    <script>
+        lucide.createIcons();
+
+        const installBtn = document.getElementById('installBtn');
+        const installBtnText = document.getElementById('installBtnText');
+
+        installBtn.addEventListener('click', () => {
+            installBtnText.textContent = 'İndiriliyor...';
+            showToast('11,57 MB APK indiriliyor...');
+            setTimeout(() => {
+                installBtnText.textContent = 'Fixing Search Beta APK İndir';
+            }, 4000);
+        });
+
+        function copyDomainLink() {
+            const domainUrl = 'https://fixing.tr';
+            const tempInput = document.createElement('input');
+            tempInput.value = domainUrl;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showToast('fixing.tr adresi kopyalandı!');
+        }
+
+        function switchTab(tabName) {
+            const aboutBtn = document.getElementById('tab-about');
+            const featuresBtn = document.getElementById('tab-features');
+            const specsBtn = document.getElementById('tab-specs');
+            
+            const aboutContent = document.getElementById('content-about');
+            const featuresContent = document.getElementById('content-features');
+            const specsContent = document.getElementById('content-specs');
+
+            [aboutBtn, featuresBtn, specsBtn].forEach(btn => {
+                btn.classList.remove('tab-active', 'text-brandBlue');
+                btn.classList.add('text-zinc-400');
+            });
+
+            [aboutContent, featuresContent, specsContent].forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            if (tabName === 'about') {
+                aboutBtn.classList.add('tab-active', 'text-brandBlue');
+                aboutContent.classList.remove('hidden');
+            } else if (tabName === 'features') {
+                featuresBtn.classList.add('tab-active', 'text-brandBlue');
+                featuresContent.classList.remove('hidden');
+            } else if (tabName === 'specs') {
+                specsBtn.classList.add('tab-active', 'text-brandBlue');
+                specsContent.classList.remove('hidden');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = message;
+
+            toast.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
